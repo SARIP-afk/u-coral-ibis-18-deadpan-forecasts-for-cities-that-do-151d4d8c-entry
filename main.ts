@@ -19,7 +19,12 @@ const LINE =
   "Bramblewick: 72 and sunny, with a 40% chance of afternoon hail the size of regrets, falling mostly downtown.";
 
 // Runtime mirror of the sealed gate: refuse to write anything invalid
-// rather than submit a file the judge would score 0.
+// rather than submit a file the judge would score 0. The brief also
+// requires the line to name its city, so enforce the "City: forecast"
+// shape too — a line without a city is not a forecast for anywhere.
+if (!/^[^:]+: .+$/.test(LINE)) {
+  throw new Error("entry line must name its city as 'City: forecast'");
+}
 if (LINE.length < 1 || LINE.length > 160 || LINE.trim().length === 0) {
   throw new Error(`entry line fails the 1-160 character gate: ${LINE.length} chars`);
 }
